@@ -83,4 +83,23 @@ export class AppComponent implements OnInit {
         console.log(err);
       })
   }
+
+  postCall() {
+    const data = {
+      "title": "Hello World!",
+      "body": "This is a test application"
+    }
+    this.http
+      .post('https://jsonplaceholder.typicode.com/posts', data)
+      .subscribe({
+        next: (res) => console.log(res),
+        error: (err) => this.backgroundSync()
+      });
+  }
+
+  backgroundSync() {
+    navigator.serviceWorker.ready
+      .then((swRegistration) => swRegistration.sync.register('post-data'))
+      .catch(console.log);
+  }
 }
